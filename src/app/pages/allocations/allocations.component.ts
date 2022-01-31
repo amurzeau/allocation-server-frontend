@@ -53,6 +53,15 @@ export class AllocationsComponent implements OnInit {
 
   }
 
+  addScrollSupportToInput() {
+    const inputs = Array.from(document.getElementsByClassName('ant-input-number-input'));
+
+    for (const input of inputs) {
+      const inputElement = <HTMLElement> input;
+      inputElement.setAttribute("type", "number");
+    }
+  }
+
   ngOnInit(): void {
     this.addRow();
     this.addRow();

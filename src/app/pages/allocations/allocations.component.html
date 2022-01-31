@@ -31,7 +31,7 @@
                     </nz-select>
                 </td>
                 <td>
-                    <nz-input-number [(ngModel)]="data.duration" [nzMin]="0" [nzMax]="30" [nzStep]="0.25" [nzPlaceHolder]="'Nombre de jours'" [nzPrecision]="2"></nz-input-number>
+                    <nz-input-number [(ngModel)]="data.duration" [nzMin]="0" [nzMax]="30" [nzStep]="0.25" [nzPlaceHolder]="'Nombre de jours'" [nzPrecision]="2" (nzFocus)="addScrollSupportToInput()"></nz-input-number>
                     jour(s)
                 </td>
                 <td>
