@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/allocations' },
-  { path: 'allocations', loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule) }
+  { path: 'allocations', loadChildren: () => import('./pages/allocations/allocations.module').then(m => m.AllocationsModule) }
 ];
 
 @NgModule({

@@ -4,10 +4,11 @@ import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon';
 import {
   MenuFoldOutline,
   MenuUnfoldOutline,
-  FormOutline
+  FormOutline,
+  DeleteOutline
 } from '@ant-design/icons-angular/icons';
 
-const icons = [MenuFoldOutline, MenuUnfoldOutline, FormOutline];
+const icons = [MenuFoldOutline, MenuUnfoldOutline, FormOutline, DeleteOutline];
 
 @NgModule({
   imports: [NzIconModule],
