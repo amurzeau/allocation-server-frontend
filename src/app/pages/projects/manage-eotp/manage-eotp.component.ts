@@ -1,11 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-
-import { ProjectData } from 'src/app/pages/projects/projects.component';
-
-interface EotpData {
-  code: string;
-  name: string;
-}
+import { Eotp } from 'src/app/interfaces/eotp';
+import { Project } from 'src/app/interfaces/project';
 
 @Component({
   selector: 'app-manage-eotp',
@@ -13,13 +8,13 @@ interface EotpData {
   styleUrls: ['./manage-eotp.component.scss']
 })
 export class ManageEotpComponent implements OnInit {
-  @Input() project: ProjectData | null = null;
+  @Input() project: Project | null = null;
   @Input() preEnteredEotp: string = '';
   @Input() visible: boolean = false;
   @Output() visibleChange = new EventEmitter<boolean>();
 
-  listOpenEotp: EotpData[] = [];
-  listClosedEotp: EotpData[] = [];
+  listOpenEotp: Eotp[] = [];
+  listClosedEotp: Eotp[] = [];
 
   newPtCode: string = '';
   newPtName: string = '';
@@ -46,12 +41,12 @@ export class ManageEotpComponent implements OnInit {
     this.listOpenEotp = [
       ...this.listOpenEotp,
       {
-        code: this.newPtCode,
+        id: this.newPtCode,
         name: this.newPtName
       }
     ];
     if(this.project !== null) {
-      this.project.pt = this.newPtCode;
+      
     } else {
       console.error("project is null");
     }

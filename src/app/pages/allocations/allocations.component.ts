@@ -13,6 +13,7 @@ import { AllocationsService } from 'src/app/services/allocations.service';
 export class AllocationsComponent implements OnInit {
   
   i = 0;
+  month: Date = new Date();
   editId: string | null = null;
   allocations: Allocation[] = [];
   projects: Array<{ label: string; value: ProjectIdentifier;}> = [];
@@ -81,7 +82,7 @@ export class AllocationsComponent implements OnInit {
       .getProjectsFromAllocationApiData(allocations)
       .reduce((acc: Map<ProjectIdentifier, string>, project) => {
         if(!acc.has(project.id)) {
-          acc.set(project.id, `${project.name} - ${project.board} - ${project.target} - ${project.type.name}`);
+          acc.set(project.id, `${project.name} - ${project.board} - ${project.component} - ${project.type.name}`);
         }
         return acc;
       }, new Map<ProjectIdentifier, string>());

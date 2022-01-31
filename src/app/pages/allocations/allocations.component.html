@@ -1,7 +1,7 @@
 <nz-layout>
         <div nzAlign="middle" nz-row nzType="flex" nzJustify="start">
             <div nz-col>Mois:&nbsp;</div>
-            <nz-date-picker nz-col nzMode="month" nzFormat="LLLL y" nzAllowClear="false"></nz-date-picker>
+            <nz-date-picker nz-col nzMode="month" nzFormat="LLLL y" nzAllowClear="false" [ngModel]="month"></nz-date-picker>
 
             <button nz-col nz-button (click)="exportToSap()" class="push-right">Export SAP</button>
             <button nz-col nz-button (click)="exportToCsv()">Export CSV</button>

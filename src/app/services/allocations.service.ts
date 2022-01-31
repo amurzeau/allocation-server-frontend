@@ -22,7 +22,8 @@ export class AllocationsService {
           id: 0,
           name: 'Project1',
           board: 'board',
-          target: 'arm',
+          component: 'gpp',
+          arch: 'x86',
           type: {
             id: 'firmware',
             name: 'Firmware'
@@ -52,7 +53,8 @@ export class AllocationsService {
           id: 0,
           name: 'Project1',
           board: 'board',
-          target: 'arm',
+          component: 'dsp',
+          arch: 'arm',
           type: {
             id: 'firmware',
             name: 'Firmware'
@@ -82,7 +84,8 @@ export class AllocationsService {
           id: 1,
           name: 'Lol project',
           board: 'magelan',
-          target: 'x86',
+          component: 'stm32',
+          arch: 'arm',
           type: {
             id: 'desktop-app',
             name: 'Desktop application'
@@ -108,7 +111,8 @@ export class AllocationsService {
         id: 0,
         name: 'Project1',
         board: 'board',
-        target: 'arm',
+        component: 'gpp',
+        arch: 'x86',
         type: {
           id: 'firmware',
           name: 'Firmware'
@@ -130,7 +134,8 @@ export class AllocationsService {
         id: 1,
         name: 'Lol project',
         board: 'magelan',
-        target: 'x86',
+        component: 'dsp',
+        arch: 'arm',
         type: {
           id: 'desktop-app',
           name: 'Desktop application'

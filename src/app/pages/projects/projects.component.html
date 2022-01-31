@@ -3,14 +3,15 @@
             <button nz-button (click)="exportToCsv()">Export CSV</button>
             <button nz-button (click)="addRow()" nzType="primary">Ajout projet</button>
         </div>
-        <nz-table #editRowTable nzBordered nzSize="small" [nzData]="listOfData" nzFrontPagination="false">
+        <nz-table #editRowTable nzBordered nzSize="small" [nzData]="projects" nzFrontPagination="false">
             <thead>
             <tr>
                 <th>Projet</th>
                 <th>Carte</th>
-                <th>Cible</th>
+                <th>Composant</th>
+                <th>Arch</th>
                 <th>Type</th>
-                <th>P/T</th>
+                <th>eOTP</th>
                 <th></th>
             </tr>
             </thead>
@@ -23,7 +24,14 @@
                     <input nz-input type="text" [(ngModel)]="data.board"/>
                 </td>
                 <td>
-                    <input nz-input type="text" [(ngModel)]="data.target"/>
+                    <input nz-input type="text" [(ngModel)]="data.component"/>
+                </td>
+                <td>
+                    <nz-select nzPlaceHolder="Architecture" [(ngModel)]="data.arch">
+                        <nz-option nzValue="arm" nzLabel="ARM"></nz-option>
+                        <nz-option nzValue="x86" nzLabel="x86"></nz-option>
+                        <nz-option nzValue="powerpc" nzLabel="Power PC"></nz-option>
+                    </nz-select>
                 </td>
                 <td>
                     <nz-select nzPlaceHolder="Select a type" [(ngModel)]="data.type">
@@ -33,8 +41,7 @@
                     </nz-select>
                 </td>
                 <td>
-                    <nz-select #ptSelectElement nzShowSearch nzPlaceHolder="Select P/T" [(ngModel)]="data.pt" [nzDropdownRender]="renderTemplate" (nzOnSearch)="setLastSearch($event)">
-                        <nz-option *ngFor="let option of listOfPT" [nzLabel]="option.code + ' - ' + option.name" [nzValue]="option.code"></nz-option>
+                    <nz-select #ptSelectElement nzShowSearch nzPlaceHolder="Select P/T" [nzDropdownRender]="renderTemplate" (nzOnSearch)="setLastSearch($event)" [nzOptions]="eotps">
                     </nz-select>
                     <ng-template #renderTemplate>
                       <div class="container">
