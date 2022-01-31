@@ -2,11 +2,12 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzSelectComponent } from 'ng-zorro-antd/select';
 
-interface ProjectData {
+export interface ProjectData {
   id: string;
   name: string;
   board: string;
   target: string;
+  type: string;
   pt: string;
 }
 
@@ -21,7 +22,7 @@ interface PTData {
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
-  
+
   i = 0;
   listOfData: ProjectData[] = [];
   listOfPT: PTData[] = [];
@@ -40,7 +41,8 @@ export class ProjectsComponent implements OnInit {
         id: `${this.i}`,
         name: `Project ${this.i}`,
         board: 'board',
-        target: `x86`,
+        target: 'x86',
+        type: 'firmware',
         pt: '5464981981-5651'
       }
     ];

@@ -9,6 +9,7 @@
                 <th>Projet</th>
                 <th>Carte</th>
                 <th>Cible</th>
+                <th>Type</th>
                 <th>P/T</th>
                 <th></th>
             </tr>
@@ -23,6 +24,13 @@
                 </td>
                 <td>
                     <input nz-input type="text" [(ngModel)]="data.target"/>
+                </td>
+                <td>
+                    <nz-select nzPlaceHolder="Select a type" [(ngModel)]="data.type">
+                        <nz-option nzValue="firmware" nzLabel="Firmware"></nz-option>
+                        <nz-option nzValue="web-app" nzLabel="Web application"></nz-option>
+                        <nz-option nzValue="desktop-app" nzLabel="Desktop application"></nz-option>
+                    </nz-select>
                 </td>
                 <td>
                     <nz-select #ptSelectElement nzShowSearch nzPlaceHolder="Select P/T" [(ngModel)]="data.pt" [nzDropdownRender]="renderTemplate" (nzOnSearch)="setLastSearch($event)">
@@ -45,15 +53,5 @@
             </tr>
             </tbody>
         </nz-table>
-        <nz-modal [(nzVisible)]="isCreatePTVisible" nzTitle="The first Modal" (nzOnCancel)="closePTModal()" (nzOnOk)="addPT()">
-            <ng-container *nzModalContent>
-                Création d'un nouveau P/T pour le projet {{newPtProject?.name}}
-                <br/>
-                Code:
-                <input nz-input type="text" [(ngModel)]="newPtCode"/>
-                <br/>
-                Name:
-                <input nz-input type="text" [(ngModel)]="newPtName"/>
-            </ng-container>
-        </nz-modal>
+        <app-manage-eotp [(visible)]="isCreatePTVisible"></app-manage-eotp>
 </nz-layout>

@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivityTypeIdentifier } from 'src/app/interfaces/activity-type';
+import { Allocation } from 'src/app/interfaces/allocation';
+import { ProjectIdentifier } from 'src/app/interfaces/project';
+import { AllocationsService } from 'src/app/services/allocations.service';
 
-interface ItemData {
-  id: string;
-  name: string;
-  nature: string;
-  duration: string;
-}
 
 @Component({
   selector: 'app-allocations',
@@ -16,9 +14,11 @@ export class AllocationsComponent implements OnInit {
   
   i = 0;
   editId: string | null = null;
-  listOfData: ItemData[] = [];
+  allocations: Allocation[] = [];
+  projects: Array<{ label: string; value: ProjectIdentifier;}> = [];
+  activityTypes: Array<{ label: string; value: ActivityTypeIdentifier;}> = [];
 
-  constructor() { }
+  constructor(private allocationService: AllocationsService) { }
 
   startEdit(id: string): void {
     this.editId = id;
@@ -29,20 +29,20 @@ export class AllocationsComponent implements OnInit {
   }
 
   addRow(): void {
-    this.listOfData = [
-      ...this.listOfData,
+    this.allocations = [
+      ...this.allocations,
       {
-        id: `${this.i}`,
-        name: `Project ${this.i}`,
-        nature: 'development',
-        duration: `1`
+        id: this.i,
+        project: undefined,
+        activityType: undefined,
+        duration: 0
       }
     ];
     this.i++;
   }
 
-  deleteRow(id: string): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
+  deleteRow(id: number): void {
+    this.allocations = this.allocations.filter(d => d.id !== id);
   }
 
   exportToSap(): void {
@@ -62,9 +62,36 @@ export class AllocationsComponent implements OnInit {
     }
   }
 
+  onSearchProject(event: string): void {
+
+  }
+
   ngOnInit(): void {
-    this.addRow();
-    this.addRow();
+    let allocations = this.allocationService.getAllocations('');
+    this.allocations = allocations.map((allocation) => {
+      return {
+        id: allocation.id,
+        project: allocation.project.id,
+        activityType: allocation.activityType.id,
+        duration: allocation.duration
+      }
+    });
+    
+    let projectsMap = this.allocationService
+      .getProjectsFromAllocationApiData(allocations)
+      .reduce((acc: Map<ProjectIdentifier, string>, project) => {
+        if(!acc.has(project.id)) {
+          acc.set(project.id, `${project.name} - ${project.board} - ${project.target} - ${project.type.name}`);
+        }
+        return acc;
+      }, new Map<ProjectIdentifier, string>());
+
+    this.projects = Array.from(projectsMap, ([value, label]) => ({ value: value, label: label}));
+
+    this.activityTypes = this.allocationService.getActivityType().map((activity) => ({
+      label: activity.name,
+      value: activity.id
+    }));
   }
 
 }

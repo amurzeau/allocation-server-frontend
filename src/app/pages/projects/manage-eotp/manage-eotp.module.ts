@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 
-import { ProjectsRoutingModule } from './projects-routing.module';
+import { ManageEotpRoutingModule } from './manage-eotp-routing.module';
 
-import { ProjectsComponent as ProjectsComponent } from './projects.component';
+import { ManageEotpComponent as ManageEotpComponent } from './manage-eotp.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -19,13 +19,11 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 
-import { ManageEotpModule } from 'src/app/pages/projects/manage-eotp/manage-eotp.module';
-
 @NgModule({
   imports: [
     FormsModule,
     CommonModule,
-    ProjectsRoutingModule,
+    ManageEotpRoutingModule,
     NzLayoutModule,
     NzTableModule,
     NzPopconfirmModule,
@@ -38,10 +36,9 @@ import { ManageEotpModule } from 'src/app/pages/projects/manage-eotp/manage-eotp
     NzGridModule,
     NzSpaceModule,
     NzTagModule,
-    NzModalModule,
-    ManageEotpModule
+    NzModalModule
   ],
-  declarations: [ProjectsComponent],
-  exports: [ProjectsComponent]
+  declarations: [ManageEotpComponent],
+  exports: [ManageEotpComponent]
 })
-export class ProjectsModule { }
+export class ManageEotpModule { }

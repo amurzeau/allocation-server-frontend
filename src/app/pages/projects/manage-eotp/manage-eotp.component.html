@@ -1,0 +1,11 @@
+<nz-modal [(nzVisible)]="visible" nzTitle="Gestion des eOTP du projet" (nzOnCancel)="closeModal()" (nzOnOk)="validateModal()">
+    <ng-container *nzModalContent>
+        Création d'un nouveau P/T pour le projet {{project?.name}}
+        <br/>
+        Code:
+        <input nz-input type="text" [(ngModel)]="newPtCode"/>
+        <br/>
+        Name:
+        <input nz-input type="text" [(ngModel)]="newPtName"/>
+    </ng-container>
+</nz-modal>
