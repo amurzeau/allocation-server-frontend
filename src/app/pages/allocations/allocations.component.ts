@@ -11,13 +11,13 @@ import { AllocationsService } from 'src/app/services/allocations.service';
   styleUrls: ['./allocations.component.scss']
 })
 export class AllocationsComponent implements OnInit {
-  
+
   i = 0;
   month: Date = new Date();
   editId: string | null = null;
   allocations: Allocation[] = [];
-  projects: Array<{ label: string; value: ProjectIdentifier;}> = [];
-  activityTypes: Array<{ label: string; value: ActivityTypeIdentifier;}> = [];
+  projects: Array<{ label: string; value: ProjectIdentifier; }> = [];
+  activityTypes: Array<{ label: string; value: ActivityTypeIdentifier; }> = [];
 
   constructor(private allocationService: AllocationsService) { }
 
@@ -58,7 +58,7 @@ export class AllocationsComponent implements OnInit {
     const inputs = Array.from(document.getElementsByClassName('ant-input-number-input'));
 
     for (const input of inputs) {
-      const inputElement = <HTMLElement> input;
+      const inputElement = <HTMLElement>input;
       inputElement.setAttribute("type", "number");
     }
   }
@@ -77,17 +77,17 @@ export class AllocationsComponent implements OnInit {
         duration: allocation.duration
       }
     });
-    
+
     let projectsMap = this.allocationService
       .getProjectsFromAllocationApiData(allocations)
       .reduce((acc: Map<ProjectIdentifier, string>, project) => {
-        if(!acc.has(project.id)) {
+        if (!acc.has(project.id)) {
           acc.set(project.id, `${project.name} - ${project.board} - ${project.component} - ${project.type.name}`);
         }
         return acc;
       }, new Map<ProjectIdentifier, string>());
 
-    this.projects = Array.from(projectsMap, ([value, label]) => ({ value: value, label: label}));
+    this.projects = Array.from(projectsMap, ([value, label]) => ({ value: value, label: label }));
 
     this.activityTypes = this.allocationService.getActivityType().map((activity) => ({
       label: activity.name,

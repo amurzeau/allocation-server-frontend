@@ -1,6 +1,6 @@
 export type UserIdentifier = string;
 
 export interface User {
-    id: UserIdentifier;
-    name: string;
+  id: UserIdentifier;
+  name: string;
 }

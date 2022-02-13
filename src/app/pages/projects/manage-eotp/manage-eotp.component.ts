@@ -45,8 +45,8 @@ export class ManageEotpComponent implements OnInit {
         name: this.newPtName
       }
     ];
-    if(this.project !== null) {
-      
+    if (this.project !== null) {
+
     } else {
       console.error("project is null");
     }

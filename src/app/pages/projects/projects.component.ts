@@ -12,7 +12,7 @@ export class ProjectsComponent implements OnInit {
 
   i = 0;
   projects: Project[] = [];
-  eotps: Array<{ label: string; value: EotpIdentifier;}> = [];
+  eotps: Array<{ label: string; value: EotpIdentifier; }> = [];
   isCreatePTVisible: boolean = false;
 
   newPtCode: string = '';
@@ -43,7 +43,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   setLastSearch(searchText: string) {
-    if(this.isCreatePTVisible === false) {
+    if (this.isCreatePTVisible === false) {
       this.newPtCode = searchText;
     }
   }
@@ -70,23 +70,23 @@ export class ProjectsComponent implements OnInit {
       eotpOpen: value.eotpOpen.map((value) => value.id),
       eotpClosed: value.eotpClosed.map((value) => value.id)
     }));
-    
+
     let eotpsMap = projects
       .reduce((acc: Map<EotpIdentifier, string>, value) => {
         value.eotpOpen.forEach(element => {
-          if(!acc.has(element.id)) {
+          if (!acc.has(element.id)) {
             acc.set(element.id, element.name);
           }
         });
         value.eotpClosed.forEach(element => {
-          if(!acc.has(element.id)) {
+          if (!acc.has(element.id)) {
             acc.set(element.id, element.name);
           }
         });
         return acc;
       }, new Map<EotpIdentifier, string>());
 
-      this.eotps = Array.from(eotpsMap, ([value, label]) => ({ value: value, label: label}));
+    this.eotps = Array.from(eotpsMap, ([value, label]) => ({ value: value, label: label }));
   }
 
 }

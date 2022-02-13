@@ -1,46 +1,43 @@
 <nz-layout>
-        <div nzAlign="middle" nz-row nzType="flex" nzJustify="start">
-            <div nz-col>Mois:&nbsp;</div>
-            <nz-date-picker nz-col nzMode="month" nzFormat="LLLL y" nzAllowClear="false" [ngModel]="month"></nz-date-picker>
+  <div nzAlign="middle" nz-row nzType="flex" nzJustify="start">
+    <div nz-col>Mois:&nbsp;</div>
+    <nz-date-picker nz-col nzMode="month" nzFormat="LLLL y" nzAllowClear="false" [ngModel]="month"></nz-date-picker>
 
-            <button nz-col nz-button (click)="exportToSap()" class="push-right">Export SAP</button>
-            <button nz-col nz-button (click)="exportToCsv()">Export CSV</button>
-            <button nz-col nz-button (click)="addRow()" nzType="primary">Ajout projet</button>
-        </div>
-        <nz-table #editRowTable nzBordered nzSize="small" [nzData]="allocations" nzFrontPagination="false">
-            <thead>
-            <tr>
-                <th nzWidth="30%">Projet</th>
-                <th>Nature</th>
-                <th>Durée sur le mois</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let data of editRowTable.data" class="editable-row">
-                <td>
-                    <nz-select
-                        nzShowSearch
-                        nzServerSearch
-                        (nzOnSearch)="onSearchProject($event)"
-                        nzPlaceHolder="Select a project"
-                        [(ngModel)]="data.project"
-                        [nzOptions]="projects"
-                    ></nz-select>
-                </td>
-                <td>
-                    <nz-select nzPlaceHolder="Select a nature" [(ngModel)]="data.activityType" [nzOptions]="activityTypes"></nz-select>
-                </td>
-                <td>
-                    <nz-input-number [(ngModel)]="data.duration" [nzMin]="0" [nzMax]="30" [nzStep]="0.25" [nzPlaceHolder]="'Nombre de jours'" [nzPrecision]="2" (nzFocus)="addScrollSupportToInput()"></nz-input-number>
-                    jour(s)
-                </td>
-                <td>
-                    <a (click)="deleteRow(data.id)">
-                        <i nz-icon nzType='delete'></i>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </nz-table>
+    <button nz-col nz-button (click)="exportToSap()" class="push-right">Export SAP</button>
+    <button nz-col nz-button (click)="exportToCsv()">Export CSV</button>
+    <button nz-col nz-button (click)="addRow()" nzType="primary">Ajout projet</button>
+  </div>
+  <nz-table #editRowTable nzBordered nzSize="small" [nzData]="allocations" nzFrontPagination="false">
+    <thead>
+      <tr>
+        <th nzWidth="30%">Projet</th>
+        <th>Nature</th>
+        <th>Durée sur le mois</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of editRowTable.data" class="editable-row">
+        <td>
+          <nz-select nzShowSearch nzServerSearch (nzOnSearch)="onSearchProject($event)" nzPlaceHolder="Select a project"
+            [(ngModel)]="data.project" [nzOptions]="projects"></nz-select>
+        </td>
+        <td>
+          <nz-select nzPlaceHolder="Select a nature" [(ngModel)]="data.activityType" [nzOptions]="activityTypes">
+          </nz-select>
+        </td>
+        <td>
+          <nz-input-number [(ngModel)]="data.duration" [nzMin]="0" [nzMax]="30" [nzStep]="0.25"
+            [nzPlaceHolder]="'Nombre de jours'" [nzPrecision]="2" (nzFocus)="addScrollSupportToInput()">
+          </nz-input-number>
+          jour(s)
+        </td>
+        <td>
+          <a (click)="deleteRow(data.id)">
+            <i nz-icon nzType='delete'></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
 </nz-layout>

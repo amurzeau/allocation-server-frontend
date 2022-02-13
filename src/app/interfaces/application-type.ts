@@ -1,6 +1,6 @@
 export type ApplicationTypeIdentifier = string;
 
 export interface ApplicationType {
-    id: ApplicationTypeIdentifier;
-    name: string;
+  id: ApplicationTypeIdentifier;
+  name: string;
 }

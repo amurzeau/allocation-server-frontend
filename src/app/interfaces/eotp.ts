@@ -1,6 +1,6 @@
 export type EotpIdentifier = string;
 
 export interface Eotp {
-    id: EotpIdentifier;
-    name: string;
+  id: EotpIdentifier;
+  name: string;
 }

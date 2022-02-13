@@ -1,6 +1,6 @@
 export type ActivityTypeIdentifier = string;
 
 export interface ActivityType {
-    id: ActivityTypeIdentifier;
-    name: string;
+  id: ActivityTypeIdentifier;
+  name: string;
 }
