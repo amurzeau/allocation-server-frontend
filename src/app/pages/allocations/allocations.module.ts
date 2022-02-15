@@ -14,6 +14,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { AllocationsItemComponent } from './allocation-item.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 @NgModule({
   imports: [
@@ -28,9 +30,10 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     NzSelectModule,
     NzIconModule,
     NzInputNumberModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    NzGridModule
   ],
-  declarations: [AllocationsComponent],
-  exports: [AllocationsComponent]
+  declarations: [AllocationsComponent, AllocationsItemComponent],
+  exports: [AllocationsComponent, AllocationsItemComponent]
 })
 export class AllocationsModule { }

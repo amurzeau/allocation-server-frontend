@@ -25,10 +25,10 @@ export class AllocationsComponent implements OnInit {
     this.loadingAdd = true;
     this.allocationService.addNewAllocation().subscribe({
       next: (newAllocation) => {
-    this.allocations = [
-      ...this.allocations,
+        this.allocations = [
+          ...this.allocations,
           this.allocationService.convertAllocation(newAllocation)
-    ];
+        ];
       },
       error: () => {
         this.loadingAdd = false;
@@ -42,9 +42,13 @@ export class AllocationsComponent implements OnInit {
   deleteRow(id: number): void {
     this.allocationService.deleteAllocation(id).subscribe({
       next: () => {
-    this.allocations = this.allocations.filter(d => d.id !== id);
+        this.allocations = this.allocations.filter(d => d.id !== id);
       }
     });
+  }
+
+  updateRow(allocation: Allocation): Observable<any> {
+    return this.allocationService.updateAllocation(allocation);
   }
 
   exportToSap(): void {
@@ -79,7 +83,7 @@ export class AllocationsComponent implements OnInit {
     this.allocationService.getProjects().subscribe({
       next: (projects) => {
         this.projects = projects.map(project => {
-      return {
+          return {
             value: project.id,
             label: `${project.name} - ${project.board} - ${project.component} - ${project.type?.name}`
           }
@@ -93,16 +97,16 @@ export class AllocationsComponent implements OnInit {
           return {
             value: activity.id,
             label: activity.name
-        }
+          }
         });
       }
     });
 
     this.allocationService.getActivityType().forEach((activities) => {
       this.activityTypes = activities.map((activity) => ({
-      label: activity.name,
-      value: activity.id
-    }));
+        label: activity.name,
+        value: activity.id
+      }));
     });
   }
 
