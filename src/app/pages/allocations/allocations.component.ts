@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ActivityTypeIdentifier } from 'src/app/interfaces/activity-type';
 import { Allocation } from 'src/app/interfaces/allocation';
 import { ProjectIdentifier } from 'src/app/interfaces/project';
@@ -11,39 +12,39 @@ import { AllocationsService } from 'src/app/services/allocations.service';
   styleUrls: ['./allocations.component.scss']
 })
 export class AllocationsComponent implements OnInit {
-
-  i = 0;
   month: Date = new Date();
-  editId: string | null = null;
   allocations: Allocation[] = [];
   projects: Array<{ label: string; value: ProjectIdentifier; }> = [];
   activityTypes: Array<{ label: string; value: ActivityTypeIdentifier; }> = [];
 
+  loadingAdd: boolean = false;
+
   constructor(private allocationService: AllocationsService) { }
 
-  startEdit(id: string): void {
-    this.editId = id;
-  }
-
-  stopEdit(): void {
-    this.editId = null;
-  }
-
   addRow(): void {
+    this.loadingAdd = true;
+    this.allocationService.addNewAllocation().subscribe({
+      next: (newAllocation) => {
     this.allocations = [
       ...this.allocations,
-      {
-        id: this.i,
-        project: undefined,
-        activityType: undefined,
-        duration: 0
-      }
+          this.allocationService.convertAllocation(newAllocation)
     ];
-    this.i++;
+      },
+      error: () => {
+        this.loadingAdd = false;
+      },
+      complete: () => {
+        this.loadingAdd = false;
+      }
+    });
   }
 
   deleteRow(id: number): void {
+    this.allocationService.deleteAllocation(id).subscribe({
+      next: () => {
     this.allocations = this.allocations.filter(d => d.id !== id);
+      }
+    });
   }
 
   exportToSap(): void {
@@ -69,30 +70,40 @@ export class AllocationsComponent implements OnInit {
 
   ngOnInit(): void {
     let allocations = this.allocationService.getAllocations('');
-    this.allocations = allocations.map((allocation) => {
-      return {
-        id: allocation.id,
-        project: allocation.project.id,
-        activityType: allocation.activityType.id,
-        duration: allocation.duration
+    allocations.subscribe({
+      next: (allocations) => {
+        this.allocations = allocations.map(this.allocationService.convertAllocation);
       }
     });
 
-    let projectsMap = this.allocationService
-      .getProjectsFromAllocationApiData(allocations)
-      .reduce((acc: Map<ProjectIdentifier, string>, project) => {
-        if (!acc.has(project.id)) {
-          acc.set(project.id, `${project.name} - ${project.board} - ${project.component} - ${project.type.name}`);
+    this.allocationService.getProjects().subscribe({
+      next: (projects) => {
+        this.projects = projects.map(project => {
+      return {
+            value: project.id,
+            label: `${project.name} - ${project.board} - ${project.component} - ${project.type?.name}`
+          }
+        });
+      }
+    });
+
+    this.allocationService.getActivityType().subscribe({
+      next: (activities) => {
+        this.activityTypes = activities.map(activity => {
+          return {
+            value: activity.id,
+            label: activity.name
         }
-        return acc;
-      }, new Map<ProjectIdentifier, string>());
+        });
+      }
+    });
 
-    this.projects = Array.from(projectsMap, ([value, label]) => ({ value: value, label: label }));
-
-    this.activityTypes = this.allocationService.getActivityType().map((activity) => ({
+    this.allocationService.getActivityType().forEach((activities) => {
+      this.activityTypes = activities.map((activity) => ({
       label: activity.name,
       value: activity.id
     }));
+    });
   }
 
 }

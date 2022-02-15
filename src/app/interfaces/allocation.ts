@@ -5,14 +5,14 @@ export type AllocationIdentifier = number;
 
 export interface Allocation {
   id: AllocationIdentifier;
-  project: ProjectIdentifier | undefined;
-  activityType: ActivityTypeIdentifier | undefined;
+  projectId: ProjectIdentifier | undefined;
+  activityTypeId: ActivityTypeIdentifier | undefined;
   duration: number;
 }
 
 export interface AllocationApiData {
   id: AllocationIdentifier;
-  project: ProjectApiData;
-  activityType: ActivityType;
+  project: ProjectApiData | null;
+  activityType: ActivityType | null;
   duration: number;
 }

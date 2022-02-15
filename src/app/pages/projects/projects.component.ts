@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Eotp, EotpIdentifier } from 'src/app/interfaces/eotp';
+import { EotpIdentifier } from 'src/app/interfaces/eotp';
 import { Project } from 'src/app/interfaces/project';
 import { AllocationsService } from 'src/app/services/allocations.service';
 
@@ -63,30 +63,30 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let projects = this.allocationService.getProjects();
-    this.projects = projects.map((value) => ({
-      ...value,
-      type: value.type.id,
-      eotpOpen: value.eotpOpen.map((value) => value.id),
-      eotpClosed: value.eotpClosed.map((value) => value.id)
-    }));
+    this.allocationService.getProjects().forEach((projects) => {
+      this.projects = projects.map((value) => ({
+        ...value,
+        type: value.type?.id,
+        eotpOpen: value.eotpOpen.map((value) => value.id),
+        eotpClosed: value.eotpClosed.map((value) => value.id)
+      }));
 
-    let eotpsMap = projects
-      .reduce((acc: Map<EotpIdentifier, string>, value) => {
-        value.eotpOpen.forEach(element => {
-          if (!acc.has(element.id)) {
-            acc.set(element.id, element.name);
-          }
-        });
-        value.eotpClosed.forEach(element => {
-          if (!acc.has(element.id)) {
-            acc.set(element.id, element.name);
-          }
-        });
-        return acc;
-      }, new Map<EotpIdentifier, string>());
+      let eotpsMap = projects
+        .reduce((acc: Map<EotpIdentifier, string>, value) => {
+          value.eotpOpen.forEach(element => {
+            if (!acc.has(element.id)) {
+              acc.set(element.id, element.name);
+            }
+          });
+          value.eotpClosed.forEach(element => {
+            if (!acc.has(element.id)) {
+              acc.set(element.id, element.name);
+            }
+          });
+          return acc;
+        }, new Map<EotpIdentifier, string>());
 
-    this.eotps = Array.from(eotpsMap, ([value, label]) => ({ value: value, label: label }));
+      this.eotps = Array.from(eotpsMap, ([value, label]) => ({ value: value, label: label }));
+    });
   }
-
 }

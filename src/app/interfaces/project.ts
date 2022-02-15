@@ -20,7 +20,7 @@ export interface ProjectApiData {
   board: string;
   component: string;
   arch: string;
-  type: ApplicationType;
+  type: ApplicationType | null;
   eotpOpen: Eotp[];
   eotpClosed: Eotp[];
 }
