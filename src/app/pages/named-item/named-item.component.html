@@ -1,0 +1,22 @@
+<nz-layout>
+  <div nzAlign="middle" nz-row nzType="flex" nzJustify="start">
+    <button nz-col nz-button class="push-right" (click)="exportToCsv()">Export CSV</button>
+    <button #addButton nz-col nz-button (click)="showModalEvent.emit()" [nzLoading]="loadingAdd" nzType="primary">Ajout
+      projet</button>
+  </div>
+  <nz-table #editRowTable nzBordered nzSize="small" [nzData]="namedItems" nzFrontPagination="false">
+    <thead>
+      <tr>
+        <th nzWidth="30%">ID</th>
+        <th>Nom</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr app-named-item-row *ngFor="let data of editRowTable.data" class="editable-row" [data]="data"
+        [dataChanged]="updateRow.bind(this)" [deleteRequest]="deleteRow.bind(this)">
+      </tr>
+    </tbody>
+  </nz-table>
+  <app-named-item-add-dialog [showModal]="showModalEvent" [createItem]="addRow.bind(this)"></app-named-item-add-dialog>
+</nz-layout>

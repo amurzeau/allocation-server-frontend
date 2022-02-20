@@ -1,27 +1,27 @@
 <nz-layout>
-    <div nzAlign="center" style="margin-left: auto;">
-        <button nz-button (click)="exportToCsv()">Export CSV</button>
-        <button nz-button (click)="addRow()" nzType="primary">Ajout projet</button>
-    </div>
-    <nz-table #editRowTable nzBordered nzSize="small" [nzData]="projects" nzFrontPagination="false">
-        <thead>
-            <tr>
-                <th>Projet</th>
-                <th>Carte</th>
-                <th>Composant</th>
-                <th>Arch</th>
-                <th>Type</th>
-                <th>eOTP</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let data of editRowTable.data" class="editable-row">
-            </tr>
-            <tr app-project-item *ngFor="let data of editRowTable.data" class="editable-row" [data]="data"
-                [dataChanged]="updateRow.bind(this)" (deleteRequest)="deleteRow($event)" [eotps]="eotps"
-                [applicationTypes]="applicationTypes">
-            </tr>
-        </tbody>
-    </nz-table>
+  <div nzAlign="center" style="margin-left: auto;">
+    <button nz-button (click)="exportToCsv()">Export CSV</button>
+    <button nz-button (click)="addRow()" nzType="primary">Ajout projet</button>
+  </div>
+  <nz-table #editRowTable nzBordered nzSize="small" [nzData]="projects" nzFrontPagination="false">
+    <thead>
+      <tr>
+        <th>Projet</th>
+        <th>Carte</th>
+        <th>Composant</th>
+        <th>Arch</th>
+        <th>Activité</th>
+        <th>eOTP</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of editRowTable.data" class="editable-row">
+      </tr>
+      <tr app-project-item *ngFor="let data of editRowTable.data" class="editable-row" [data]="data"
+        [dataChanged]="updateRow.bind(this)" (deleteRequest)="deleteRow($event)" [eotps]="eotps"
+        [applicationTypes]="applicationTypes">
+      </tr>
+    </tbody>
+  </nz-table>
 </nz-layout>
