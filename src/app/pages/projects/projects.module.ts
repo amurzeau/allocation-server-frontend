@@ -18,30 +18,33 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 
 import { ManageEotpModule } from 'src/app/pages/projects/manage-eotp/manage-eotp.module';
+import { ProjectItemComponent } from './project-item.component';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    CommonModule,
-    ProjectsRoutingModule,
-    NzLayoutModule,
-    NzTableModule,
-    NzPopconfirmModule,
-    NzButtonModule,
-    NzInputModule,
-    NzSelectModule,
-    NzIconModule,
-    NzInputNumberModule,
-    NzDatePickerModule,
-    NzGridModule,
-    NzSpaceModule,
-    NzTagModule,
-    NzModalModule,
-    ManageEotpModule
-  ],
-  declarations: [ProjectsComponent],
-  exports: [ProjectsComponent]
+    imports: [
+        FormsModule,
+        CommonModule,
+        ProjectsRoutingModule,
+        NzLayoutModule,
+        NzTableModule,
+        NzPopconfirmModule,
+        NzButtonModule,
+        NzInputModule,
+        NzSelectModule,
+        NzIconModule,
+        NzInputNumberModule,
+        NzDatePickerModule,
+        NzGridModule,
+        NzSpaceModule,
+        NzTagModule,
+        NzModalModule,
+        ManageEotpModule,
+        NzAutocompleteModule,
+    ],
+    declarations: [ProjectsComponent, ProjectItemComponent],
+    exports: [ProjectsComponent, ProjectItemComponent]
 })
 export class ProjectsModule { }

@@ -1,86 +1,50 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { UserIdentifier } from '../interfaces/user';
 import { Allocation, AllocationApiData, AllocationIdentifier } from '../interfaces/allocation';
-import { Project, ProjectApiData } from '../interfaces/project';
+import { ProjectApiData } from '../interfaces/project';
 import { Eotp } from '../interfaces/eotp';
 import { ActivityType } from '../interfaces/activity-type';
 import { ApplicationType } from '../interfaces/application-type';
 import { Observable } from 'rxjs';
+import { ConfigService } from './config.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AllocationsService {
-  private baseUrl: string = "http://localhost:8080";
+    private baseUrl: string = "";
 
-  constructor(private http: HttpClient) {
-  }
-
-  convertAllocation(allocation: AllocationApiData): Allocation {
-    return {
-      id: allocation.id,
-      projectId: allocation.project?.id,
-      activityTypeId: allocation.activityType?.id,
-      duration: allocation.duration
+    constructor(private http: HttpClient) {
+        this.baseUrl = ConfigService.baseUrl + "/allocations";
     }
-  }
 
-  getAllocations(userId: UserIdentifier): Observable<AllocationApiData[]> {
-    return this.http.get<AllocationApiData[]>(this.baseUrl + "/allocations");
-  }
-
-  addNewAllocation(): Observable<AllocationApiData> {
-    return this.http.post<AllocationApiData>(this.baseUrl + "/allocations",
-      {
-        projectId: undefined,
-        activityTypeId: undefined,
-        duration: 0
-      });
-  }
-
-  updateAllocation(allocation: Allocation): Observable<AllocationApiData> {
-    return this.http.put<AllocationApiData>(this.baseUrl + "/allocations/" + allocation.id, allocation);
-  }
-
-  deleteAllocation(allocationId: AllocationIdentifier): Observable<void> {
-    return this.http.delete<void>(this.baseUrl + "/allocations/" + allocationId);
-  }
-
-
-  convertProject(project: ProjectApiData): Project {
-    return {
-      id: project.id,
-      name: project.name,
-      board: project.board,
-      component: project.component,
-      arch: project.arch,
-      type: project.type?.id,
-      eotpOpen: project.eotpOpen.map(eotp => eotp.id),
-      eotpClosed: project.eotpClosed.map(eotp => eotp.id)
+    convertApiDataToSimple(allocation: AllocationApiData): Allocation {
+        return {
+            id: allocation.id,
+            projectId: allocation.project?.id,
+            activityTypeId: allocation.activityType?.id,
+            duration: allocation.duration
+        }
     }
-  }
 
-  getProjects(): Observable<ProjectApiData[]> {
-    return this.http.get<ProjectApiData[]>(this.baseUrl + "/projects");
-  }
+    getAll(userId: UserIdentifier): Observable<AllocationApiData[]> {
+        return this.http.get<AllocationApiData[]>(this.baseUrl);
+    }
 
-  getEotps(): Observable<Eotp[]> {
-    return this.http.get<Eotp[]>(this.baseUrl + "/eotps");
-  }
+    add(): Observable<AllocationApiData> {
+        return this.http.post<AllocationApiData>(this.baseUrl,
+            {
+                duration: 0
+            });
+    }
 
-  getActivityType(): Observable<ActivityType[]> {
-    return this.http.get<ActivityType[]>(this.baseUrl + "/activity-types");
-  }
+    update(allocation: Allocation): Observable<AllocationApiData> {
+        return this.http.put<AllocationApiData>(this.baseUrl + "/" + allocation.id, allocation);
+    }
 
-  getApplicationType(): Observable<ApplicationType[]> {
-    return this.http.get<ApplicationType[]>(this.baseUrl + "/application-types");
-  }
-
-  getProjectsFromAllocationApiData(allocationApiData: AllocationApiData[]): ProjectApiData[] {
-    return allocationApiData.filter((value) => (value.project !== null)).map((value) => {
-      return value.project!;
-    });
-  }
+    delete(allocationId: AllocationIdentifier): Observable<void> {
+        return this.http.delete<void>(this.baseUrl + "/" + allocationId);
+    }
 }

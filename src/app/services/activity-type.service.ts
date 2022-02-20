@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Eotp } from '../interfaces/eotp';
+import { ActivityType } from '../interfaces/activity-type';
 import { ConfigService } from './config.service';
 import { NamedItemServiceBase } from './named-item.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class EotpsService extends NamedItemServiceBase<Eotp> {
+export class ActivityTypeService extends NamedItemServiceBase<ActivityType> {
 
     constructor(http: HttpClient) {
-        super(http, ConfigService.baseUrl + "/eotps");
+        super(http, ConfigService.baseUrl + "/activity-types");
     }
 }

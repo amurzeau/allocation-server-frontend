@@ -3,111 +3,92 @@ import { Observable } from 'rxjs';
 import { ActivityTypeIdentifier } from 'src/app/interfaces/activity-type';
 import { Allocation } from 'src/app/interfaces/allocation';
 import { ProjectIdentifier } from 'src/app/interfaces/project';
+import { ActivityTypeService } from 'src/app/services/activity-type.service';
 import { AllocationsService } from 'src/app/services/allocations.service';
+import { ProjectsService } from 'src/app/services/projects.service';
 
 
 @Component({
-  selector: 'app-allocations',
-  templateUrl: './allocations.component.html',
-  styleUrls: ['./allocations.component.scss']
+    selector: 'app-allocations',
+    templateUrl: './allocations.component.html',
+    styleUrls: ['./allocations.component.scss']
 })
 export class AllocationsComponent implements OnInit {
-  month: Date = new Date();
-  allocations: Allocation[] = [];
-  projects: Array<{ label: string; value: ProjectIdentifier; }> = [];
-  activityTypes: Array<{ label: string; value: ActivityTypeIdentifier; }> = [];
+    month: Date = new Date();
+    allocations: Allocation[] = [];
+    projects: Array<{ label: string; value: ProjectIdentifier; }> = [];
+    activityTypes: Array<{ label: string; value: ActivityTypeIdentifier; }> = [];
 
-  loadingAdd: boolean = false;
+    loadingAdd: boolean = false;
 
-  constructor(private allocationService: AllocationsService) { }
+    constructor(private allocationService: AllocationsService, private projectService: ProjectsService, private activityTypeService: ActivityTypeService) { }
 
-  addRow(): void {
-    this.loadingAdd = true;
-    this.allocationService.addNewAllocation().subscribe({
-      next: (newAllocation) => {
-        this.allocations = [
-          ...this.allocations,
-          this.allocationService.convertAllocation(newAllocation)
-        ];
-      },
-      error: () => {
-        this.loadingAdd = false;
-      },
-      complete: () => {
-        this.loadingAdd = false;
-      }
-    });
-  }
-
-  deleteRow(id: number): void {
-    this.allocationService.deleteAllocation(id).subscribe({
-      next: () => {
-        this.allocations = this.allocations.filter(d => d.id !== id);
-      }
-    });
-  }
-
-  updateRow(allocation: Allocation): Observable<any> {
-    return this.allocationService.updateAllocation(allocation);
-  }
-
-  exportToSap(): void {
-
-  }
-
-  exportToCsv(): void {
-
-  }
-
-  addScrollSupportToInput() {
-    const inputs = Array.from(document.getElementsByClassName('ant-input-number-input'));
-
-    for (const input of inputs) {
-      const inputElement = <HTMLElement>input;
-      inputElement.setAttribute("type", "number");
+    addRow(): void {
+        this.loadingAdd = true;
+        this.allocationService.add().subscribe({
+            next: (newAllocation) => {
+                this.allocations = [
+                    ...this.allocations,
+                    this.allocationService.convertApiDataToSimple(newAllocation)
+                ];
+            },
+            error: () => {
+                this.loadingAdd = false;
+            },
+            complete: () => {
+                this.loadingAdd = false;
+            }
+        });
     }
-  }
 
-  onSearchProject(event: string): void {
-
-  }
-
-  ngOnInit(): void {
-    let allocations = this.allocationService.getAllocations('');
-    allocations.subscribe({
-      next: (allocations) => {
-        this.allocations = allocations.map(this.allocationService.convertAllocation);
-      }
-    });
-
-    this.allocationService.getProjects().subscribe({
-      next: (projects) => {
-        this.projects = projects.map(project => {
-          return {
-            value: project.id,
-            label: `${project.name} - ${project.board} - ${project.component} - ${project.type?.name}`
-          }
+    deleteRow(id: number): void {
+        this.allocationService.delete(id).subscribe({
+            next: () => {
+                this.allocations = this.allocations.filter(d => d.id !== id);
+            }
         });
-      }
-    });
+    }
 
-    this.allocationService.getActivityType().subscribe({
-      next: (activities) => {
-        this.activityTypes = activities.map(activity => {
-          return {
-            value: activity.id,
-            label: activity.name
-          }
+    updateRow(allocation: Allocation): Observable<any> {
+        return this.allocationService.update(allocation);
+    }
+
+    exportToSap(): void {
+
+    }
+
+    exportToCsv(): void {
+
+    }
+
+    onSearchProject(event: string): void {
+
+    }
+
+    ngOnInit(): void {
+        let allocations = this.allocationService.getAll('');
+        allocations.subscribe({
+            next: (allocations) => {
+                this.allocations = allocations.map(this.allocationService.convertApiDataToSimple);
+            }
         });
-      }
-    });
 
-    this.allocationService.getActivityType().forEach((activities) => {
-      this.activityTypes = activities.map((activity) => ({
-        label: activity.name,
-        value: activity.id
-      }));
-    });
-  }
+        this.projectService.getAll().subscribe({
+            next: (projects) => {
+                this.projects = projects.map(project => {
+                    return {
+                        value: project.id,
+                        label: `${project.name} - ${project.board} - ${project.component} - ${project.type?.name}`
+                    }
+                });
+            }
+        });
+
+        this.activityTypeService.getAsValueLabel().subscribe({
+            next: (activities) => {
+                this.activityTypes = activities;
+            }
+        });
+    }
 
 }
