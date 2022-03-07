@@ -4,5 +4,5 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class ConfigService {
-    public static readonly baseUrl: string = "http://localhost:8080";
+    public static readonly baseUrl: string = "/";
 }
